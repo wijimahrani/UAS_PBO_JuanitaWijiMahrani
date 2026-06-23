@@ -1,7 +1,7 @@
 <?php
 
 require_once 'Karyawan.php';
-require_once '../database/Koneksi.php';
+require_once 'database/koneksi.php';
 
 class KaryawanTetap extends Karyawan
 {

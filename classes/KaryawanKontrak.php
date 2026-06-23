@@ -1,45 +1,49 @@
 <?php
 
 require_once 'Karyawan.php';
-require_once '../database/Koneksi.php';
+require_once 'database/koneksi.php';
 
 class KaryawanKontrak extends Karyawan
 {
     protected $durasiKontrakBulan;
     protected $agensiPenyalur;
 
-    public static function getDataKontrak()
+    public function __construct(
+        $id_karyawan,
+        $nama_karyawan,
+        $departemen,
+        $hariKerjaMasuk,
+        $gajiDasarPerHari,
+        $durasiKontrakBulan,
+        $agensiPenyalur
+    )
+    {
+        parent::__construct(
+            $id_karyawan,
+            $nama_karyawan,
+            $departemen,
+            $hariKerjaMasuk,
+            $gajiDasarPerHari
+        );
+
+        $this->durasiKontrakBulan = $durasiKontrakBulan;
+        $this->agensiPenyalur = $agensiPenyalur;
+    }
+
+    public function getKaryawanKontrak()
     {
         $db = new Koneksi();
         $conn = $db->getConnection();
 
-        $sql = "SELECT * FROM tabel_karyawan
-                WHERE jenis_karyawan='Kontrak'";
-
-        return $conn->query($sql);
-    }
-
-    public function __construct($data)
-    {
-        parent::__construct(
-            $data['id_karyawan'],
-            $data['nama_karyawan'],
-            $data['departemen'],
-            $data['hari_kerja_masuk'],
-            $data['gaji_dasar_per_hari']
+        return $conn->query(
+            "SELECT * FROM tabel_karyawan
+             WHERE jenis_karyawan='Kontrak'"
         );
-
-        $this->durasiKontrakBulan =
-            $data['durasi_kontrak_bulan'];
-
-        $this->agensiPenyalur =
-            $data['agensi_penyalur'];
     }
 
     public function hitungGajiBersih()
     {
-        return $this->hariKerjaMasuk *
-               $this->gajiDasarPerHari;
+        return $this->hariKerjaMasuk * $this->gajiDasarPerHari;
     }
 
     public function tampilkanProfileKaryawan()
@@ -47,4 +51,3 @@ class KaryawanKontrak extends Karyawan
         return "Karyawan Kontrak";
     }
 }
-?>
