@@ -28,6 +28,18 @@ class KaryawanMagang extends Karyawan
         $this->sertifikatKampusMerdeka = $sertifikatKampusMerdeka;
     }
 
+    public function getKaryawanMagang()
+    {
+        $db = new Koneksi();
+        $conn = $db->getConnection();
+
+        $sql = "SELECT *
+                FROM tabel_karyawan
+                WHERE jenis_karyawan = 'Magang'";
+
+        return $conn->query($sql);
+    }
+
     public function hitungGajiBersih()
     {
         return ($this->hariKerjaMasuk * $this->gajiDasarPerHari) * 0.80;
