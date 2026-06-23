@@ -1,13 +1,31 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "DB_UAS_PBO_TRPL1B_JuanitaWijiMahrani";
+class Koneksi
+{
+    private $host = "localhost";
+    private $user = "root";
+    private $password = "";
+    private $database = "DB_UAS_PBO_TRPL1B_JuanitaWijiMahrani";
 
-$conn = mysqli_connect($host, $user, $password, $database);
+    protected $conn;
 
-if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+    public function __construct()
+    {
+        $this->conn = new mysqli(
+            $this->host,
+            $this->user,
+            $this->password,
+            $this->database
+        );
+
+        if ($this->conn->connect_error) {
+            die("Koneksi gagal : " . $this->conn->connect_error);
+        }
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
 }
 ?>
