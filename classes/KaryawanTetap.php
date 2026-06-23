@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Karyawan.php';
+require_once '../database/Koneksi.php';
 
 class KaryawanTetap extends Karyawan
 {
@@ -28,15 +29,38 @@ class KaryawanTetap extends Karyawan
         $this->opsiSahamId = $opsiSahamId;
     }
 
+    // Method baru (Tahap 4)
+    public function getKaryawanTetap()
+    {
+        $db = new Koneksi();
+        $conn = $db->getConnection();
+
+        $sql = "SELECT *
+                FROM tabel_karyawan
+                WHERE jenis_karyawan = 'Tetap'";
+
+        return $conn->query($sql);
+    }
+
+    // Polymorphism (Tahap 5)
     public function hitungGajiBersih()
     {
         return ($this->hariKerjaMasuk * $this->gajiDasarPerHari)
                 + $this->tunjanganKesehatan;
     }
 
+    // Implementasi abstract method
     public function tampilkanProfileKaryawan()
     {
-        return "Karyawan Tetap";
+        return [
+            'ID' => $this->id_karyawan,
+            'Nama' => $this->nama_karyawan,
+            'Departemen' => $this->departemen,
+            'Hari Kerja' => $this->hariKerjaMasuk,
+            'Gaji Dasar' => $this->gajiDasarPerHari,
+            'Tunjangan Kesehatan' => $this->tunjanganKesehatan,
+            'Opsi Saham' => $this->opsiSahamId
+        ];
     }
 }
 ?>
